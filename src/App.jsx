@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
-import HomePage from './pages/Homepage';
+import HomePage from './pages/HomePage';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const RequireAuth = ({ children }) => {
