@@ -5,7 +5,7 @@ import SQLPreview from '../components/SQLPreview';
 import ResultsTable from '../components/ResultsTable';
 import Navbar from '../components/Navbar'; // Import Navbar
 
-const HomePage = () => {
+const Home = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSQLLoading, setIsSQLLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -94,4 +94,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default Home;
