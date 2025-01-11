@@ -1,7 +1,6 @@
-import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Home from './pages/Home';
 import LoginPage from './pages/LoginPage';
+import HomePage from './pages/Homepage';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const RequireAuth = ({ children }) => {
@@ -24,7 +23,7 @@ const App = () => {
     <Router>
       <div>
         <Routes>
-          <Route path="/" element={<RequireAuth><Home /></RequireAuth>} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<GoogleAuthWrapper />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

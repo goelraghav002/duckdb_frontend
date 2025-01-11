@@ -3,9 +3,9 @@ import { uploadDataset, generateSQL, executeQuery } from '../lib/api';
 import QuerySection from '../components/QuerySection';
 import SQLPreview from '../components/SQLPreview';
 import ResultsTable from '../components/ResultsTable';
-import Navbar from '../components/Navbar'; // Import Navbar
+import Navbar from '../components/Navbar'; 
 
-const Home = () => {
+const HomePage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSQLLoading, setIsSQLLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -94,4 +94,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;
