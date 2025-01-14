@@ -3,10 +3,11 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import GettingStarted from './pages/GettingStarted';
 
 const RequireAuth = ({ children }) => {
   const user = window.localStorage.getItem("user");
-  return user ? children : <Navigate to="/login" />;
+  return user ? children : <Navigate to="/" />;
 };
 
 const App = () => {
@@ -24,9 +25,10 @@ const App = () => {
     <Router>
       <div>
         <Routes>
-          <Route path="/" element={<RequireAuth><HomePage /></RequireAuth>} />
-          <Route path="/login" element={<GoogleAuthWrapper />} />
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route path="/dashboard" element={<RequireAuth><HomePage /></RequireAuth>} />
+          <Route path="/" element={<GoogleAuthWrapper />} />
+          <Route path="/get-started" element={<GettingStarted />} />
+          <Route path="*" element={<Navigate to="/dashboard" />} />
         </Routes>
       </div>
     </Router>
