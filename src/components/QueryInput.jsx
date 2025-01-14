@@ -1,46 +1,67 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Send, Mic, MicOff } from 'lucide-react';
 import PropTypes from 'prop-types';
 
 const QueryInput = ({ onSubmit, isLoading }) => {
   const [query, setQuery] = useState('');
   const [isListening, setIsListening] = useState(false);
+  const recognitionRef = useRef(null);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (query.trim()) {
-      onSubmit(query);
+  // Initialize SpeechRecognition
+  const initializeRecognition = () => {
+    if (!('webkitSpeechRecognition' in window)) {
+      alert('Your browser does not support Speech Recognition. Please use a compatible browser.');
+      return null;
     }
+    const recognition = new window.webkitSpeechRecognition();
+    recognition.continuous = true;
+    recognition.lang = 'en-US';
+    recognition.interimResults = true; // Capture real-time speech
+    return recognition;
   };
 
   const handleVoiceInput = () => {
-    if (!('webkitSpeechRecognition' in window)) {
-      alert('Your browser does not support Speech Recognition. Please update or use a compatible browser.');
-      return;
+    if (!recognitionRef.current) {
+      recognitionRef.current = initializeRecognition();
     }
-
-    const recognition = new window.webkitSpeechRecognition();
-    recognition.continuous = false;
-    recognition.lang = 'en-US';
+    const recognition = recognitionRef.current;
+    if (!recognition) return;
 
     recognition.onstart = () => {
       setIsListening(true);
     };
 
     recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      setQuery((prevQuery) => `${prevQuery} ${transcript}`.trim());
+      const transcript = Array.from(event.results)
+        .map((result) => result[0].transcript)
+        .join('');
+      setQuery(transcript);
     };
 
     recognition.onerror = (event) => {
       console.error('Speech recognition error:', event.error);
+      setIsListening(false);
     };
 
     recognition.onend = () => {
       setIsListening(false);
+      if (query.trim()) {
+        onSubmit(query); // Submit automatically when speech ends
+      }
     };
 
-    recognition.start();
+    if (isListening) {
+      recognition.stop(); // Stop recognition if already listening
+    } else {
+      recognition.start(); // Start recognition
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (query.trim()) {
+      onSubmit(query);
+    }
   };
 
   return (
