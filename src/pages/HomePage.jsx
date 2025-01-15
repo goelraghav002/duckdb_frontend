@@ -1,18 +1,19 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { uploadDataset, generateSQL, executeQuery } from '../lib/api';
 import QuerySection from '../components/QuerySection';
 import SQLPreview from '../components/SQLPreview';
 import ResultsTable from '../components/ResultsTable';
 import Navbar from '../components/Navbar'; 
+import useFileStore from '../store/useFileStore';
 
 const HomePage = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSQLLoading, setIsSQLLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [results, setResults] = useState(null);
-  const [generatedSQL, setGeneratedSQL] = useState('');
-  const [dataSource, setDataSource] = useState('sample');
-  const [headings, setHeadings] = useState('');
+  const { dataSource, setDataSource, tableName, setTableName, setUploadedFile } = useFileStore();
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [isSQLLoading, setIsSQLLoading] = React.useState(false);
+  const [error, setError] = React.useState(null);
+  const [results, setResults] = React.useState(null);
+  const [generatedSQL, setGeneratedSQL] = React.useState('');
+  const [headings, setHeadings] = React.useState('');
 
   const handleFileSelect = useCallback(async (file) => {
     setIsLoading(true);
@@ -20,14 +21,15 @@ const HomePage = () => {
     try {
       const data = await uploadDataset(file);
       console.log('CSV uploaded successfully:', data);
-      window.localStorage.setItem('tableName', data.table);
+      setTableName(data.table);
+      setUploadedFile(file);  // Persist the uploaded file in Zustand store
       setDataSource('csv');
     } catch (err) {
       setError(err?.response?.data?.error || 'An error occurred during file upload');
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [setTableName, setUploadedFile, setDataSource]);
 
   const handleQuery = useCallback(async (naturalQuery) => {
     setIsSQLLoading(true);
@@ -35,7 +37,6 @@ const HomePage = () => {
     setError(null);
 
     try {
-      const tableName = window.localStorage.getItem('tableName');
       const sqlQuery = await generateSQL(naturalQuery, tableName);
       setGeneratedSQL(sqlQuery);
       setIsSQLLoading(false);
@@ -50,7 +51,7 @@ const HomePage = () => {
       setIsLoading(false);
       setIsSQLLoading(false);
     }
-  }, []);
+  }, [tableName]);
 
   return (
     <div className="min-h-screen bg-white">

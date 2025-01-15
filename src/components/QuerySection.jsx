@@ -2,26 +2,28 @@ import React, { useState } from "react";
 import FileUpload from "./FileUpload";
 import QueryInput from "./QueryInput";
 import PropTypes from "prop-types";
+import useFileStore from "../store/useFileStore"; // Import Zustand store
 
 const QuerySection = ({ onFileSelect, onQuerySubmit, isLoading }) => {
-  const [uploadedFileName, setUploadedFileName] = useState("");
-
+  // Get the uploaded file from the Zustand store
+  const { uploadedFile } = useFileStore();
+  
   const handleFileChange = (file) => {
     onFileSelect(file);
-    setUploadedFileName(file.name); // Save the uploaded file's name
   };
 
   const handleUpdateFile = () => {
-    setUploadedFileName(""); // Reset the file name to allow file re-selection
+    // Reset the file name to allow file re-selection
+    onFileSelect(null);
   };
 
   return (
     <div className="border border-gray-200 rounded-xl p-6 mb-8">
-      {uploadedFileName ? (
+      {uploadedFile ? (
         <div>
           <div className="flex justify-between items-center mb-4">
             <p className="text-gray-600">
-              Uploaded File: <span className="font-bold text-gray-900">{uploadedFileName}</span>
+              Uploaded File: <span className="font-bold text-gray-900">{uploadedFile.name}</span>
             </p>
             <button
               onClick={handleUpdateFile}
