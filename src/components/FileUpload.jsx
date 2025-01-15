@@ -25,20 +25,23 @@ function FileUpload({ onFileSelect }) {
     <div
       onDrop={handleDrop}
       onDragOver={(e) => e.preventDefault()}
-      className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-500 transition-colors"
+      className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-500 transition-colors relative"
     >
+      {/* Hidden file input */}
+      <input
+        type="file"
+        accept=".csv"
+        onChange={handleChange}
+        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+      />
+      
+      {/* Icon */}
       <Upload className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-      <label className="cursor-pointer">
-        <span className="mt-2 block text-sm text-gray-600">
-          Drop your CSV file here or click to upload
-        </span>
-        <input
-          type="file"
-          accept=".csv"
-          onChange={handleChange}
-          className="hidden"
-        />
-      </label>
+      
+      {/* Text for instructions */}
+      <span className="mt-2 block text-sm text-gray-600">
+        Drop your CSV file here or click anywhere to upload
+      </span>
     </div>
   );
 }
