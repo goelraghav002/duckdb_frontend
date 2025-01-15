@@ -59,32 +59,45 @@ const LoginPage = () => {
   return (
     <main className="min-h-screen w-full bg-gray-50 relative overflow-hidden flex flex-col items-center justify-center">
       {/* Logo */}
-      <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.8 }}
-        className="w-28 h-28 rounded-full bg-white flex items-center justify-center shadow-xl"
-      >
-        <svg viewBox="0 0 100 20" className="w-16 h-16">
-          <motion.path
-            d="M0,10 C20,20 40,0 60,10 C80,20 100,0 120,10"
-            stroke="url(#gradient)"
-            strokeWidth="8"
-            strokeLinecap="round"
-            fill="none"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
-          />
+      <div className="relative w-20 h-20 flex items-center justify-center">
+        {/* Background circle with subtle gradient and shadow */}
+        <div className="absolute w-40 h-40 rounded-full bg-gradient-to-b from-white to-gray-100 shadow-lg" />
+
+        <motion.svg
+          viewBox="0 0 100 30"
+          className="w-28 h-28 relative z-10"
+          initial="start"
+          animate="end"
+          strokeLinecap="round"
+          strokeWidth={8}
+        >
           <defs>
-            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#FF6B6B" />
-              <stop offset="50%" stopColor="#9B6BFF" />
-              <stop offset="100%" stopColor="#4ECDC4" />
+            <linearGradient id="gradient" x1="0%" y1="50%" x2="100%" y2="50%">
+              <stop offset="0%" stopColor="#FF1B6B" />
+              <stop offset="50%" stopColor="#45CAFF" />
+              <stop offset="100%" stopColor="#FFB321" />
             </linearGradient>
           </defs>
-        </svg>
-      </motion.div>
+
+          <motion.path
+            d="M 10 15 Q 25 5, 40 15 Q 55 25, 70 15 Q 85 5, 100 15"
+            stroke="url(#gradient)"
+            fill="none"
+            initial={{ pathLength: 0 }}
+            animate={{
+              pathLength: [0, 1, 1],
+              pathOffset: [0, 0, 1],
+              scaleY: 1.5
+            }}
+            transition={{
+              duration: 2,
+              ease: "easeInOut",
+              repeat: Infinity,
+              repeatType: "loop"
+            }}
+          />
+        </motion.svg>
+      </div>
 
       {/* Animated text */}
       <div className="h-24 mt-10 mb-10 flex items-center justify-center">
@@ -116,7 +129,7 @@ const LoginPage = () => {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="px-6 py-3 bg-black text-white font-medium rounded-lg shadow-lg transition"
+          className="px-6 py-3 bg-black text-white font-medium rounded-lg shadow-lg transition z-20"
         >
           Login with Google
         </motion.button>
@@ -124,7 +137,7 @@ const LoginPage = () => {
 
       {/* Animated wave */}
       <motion.div
-        className="absolute bottom-0 w-full h-64"
+        className="absolute bottom-0 w-full h-64 md:h-80 lg:h-96 xl:h-[20rem]"
         initial={{ y: "100%" }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, delay: 0.5 }}
@@ -133,7 +146,9 @@ const LoginPage = () => {
           <motion.path
             d="M0,100 C300,150 450,50 600,100 C750,150 900,50 1200,100 L1200,200 L0,200 Z"
             fill="url(#wave-gradient)"
-            initial={{ d: "M0,100 C300,150 450,50 600,100 C750,150 900,50 1200,100 L1200,200 L0,200 Z" }}
+            initial={{
+              d: "M0,100 C300,150 450,50 600,100 C750,150 900,50 1200,100 L1200,200 L0,200 Z",
+            }}
             animate={{
               d: [
                 "M0,100 C300,150 450,50 600,100 C750,150 900,50 1200,100 L1200,200 L0,200 Z",

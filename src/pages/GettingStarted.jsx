@@ -27,7 +27,7 @@ const GettingStarted = () => {
 
   return (
     <main
-      className="min-h-screen bg-white flex flex-col items-center justify-center px-6"
+      className="min-h-screen bg-white flex flex-col items-center justify-center px-6 my-20"
       style={{ fontFamily: "'Inter', sans-serif" }}
     >
       {/* Header Section */}
